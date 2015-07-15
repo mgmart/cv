@@ -31,6 +31,7 @@
   \colorlet{green}{gray}
   \colorlet{orange}{gray}
   \colorlet{purple}{gray}
+  \colorlet{brown}{gray}
   \colorlet{red}{gray}
   \colorlet{blue}{gray}
   \colorlet{fillheader}{white}
@@ -56,11 +57,12 @@
 \defaultfontfeatures{Mapping=tex-text}
 \setmainfont[Mapping=tex-text, Color=textcolor]{Helvetica Neue Light}
 
-\setmathfont{XITS Math}
+%\setmathfont{XITS Math}
 
 %%%%%%%%%%
 % Header %
 %%%%%%%%%%
+\RequirePackage[a4paper,left=6.1cm,top=2cm,right=1.5cm,bottom=2.5cm,nohead,nofoot]{geometry}
 
 \RequirePackage{tikz}
 
@@ -101,7 +103,10 @@
         red\or%
         orange\or%
         green\or%
-        purple\else%
+        purple\or%
+        brown\or%
+        green\or%
+        orange\else%
         headercolor\fi%
     } #1#2#3%
   }%
@@ -117,9 +122,15 @@
   \par\vspace{\parskip}
 }
 
-\renewcommand{\subsection}[2]{
+\renewcommand{\subsection}[1]{
   \par\vspace{.5\parskip}%
-  \Large\headingfont\color{headercolor} #2%
+  {\Large\headingfont\color{headercolor} #1}
+  \par\vspace{.25\parskip}%
+}
+
+\renewcommand{\subsubsection}[2]{
+  \par\vspace{.5\parskip}%
+  {\Large\headingfont\color{headercolor} #2}
   \par\vspace{.25\parskip}%
 }
 
@@ -131,6 +142,7 @@
 %%%%%%%%%%%%%%%%%%%%
 
 \setlength{\tabcolsep}{0pt}
+
 \newenvironment{entrylist}{%
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ll}
 }{%
@@ -144,6 +156,7 @@
     {\footnotesize\addfontfeature{Color=lightgray} #3}\\%
     #4\vspace{\parsep}%
   }\\}
+
 
 
 %%%%%%%%%%%%%%
@@ -168,118 +181,23 @@
   \let\section\oldsection
 }
 
-%%%%%%%%%%%%%%%%
-% Bibliography %
-%%%%%%%%%%%%%%%%
-
-\RequirePackage[style=verbose, maxnames=99, sorting=ydnt]{biblatex}
-
-\DeclareFieldFormat[article]{title}{#1\par}
-\DeclareFieldFormat[inproceedings]{title}{#1\par}
-\DeclareFieldFormat[misc]{title}{#1\par}
-\DeclareFieldFormat[report]{title}{#1\par}
-
-\DeclareBibliographyDriver{article}{%
-  \printfield{title}%
-  \newblock%
-  \printnames{author}%
-  \par%
-  \newblock%
-  {%
-    \footnotesize\addfontfeature{Color=lightgray}\itshape%
-    \usebibmacro{journal+issuetitle}%
-    \setunit{\space}%
-    \printfield{pages}%
-    \newunit%
-    \printlist{publisher}%
-    \setunit*{\addcomma\space}%
-    \printfield{year}%
-    \newunit%
-  }
-  \par\vspace{0.3\baselineskip}
-}
-
-\DeclareBibliographyDriver{inproceedings}{%
-  \printfield{title}%
-  \newblock%
-  \printnames{author}%
-  \par%
-  \newblock%
-  {%
-    \footnotesize\addfontfeature{Color=lightgray}%
-    \printfield{booktitle}%
-    \setunit{\addcomma\space}%
-    \printfield{year}%
-    \setunit{\addcomma\space}%
-    \printlist{location}%
-    \newunit%
-  }
-  \par\vspace{0.3\baselineskip}
-}
-
-\DeclareBibliographyDriver{misc}{%
-  \printfield{title}%
-  \newblock%
-  \printnames{author}%
-  \par%
-  \newblock%
-  {%
-    \footnotesize\addfontfeature{Color=lightgray}\itshape%
-    \printfield{booktitle}%
-    \setunit*{\addcomma\space}%
-    \printfield{note}%
-    \setunit*{\addcomma\space}%
-    \printfield{year}%
-    \setunit{\addcomma\space}%
-    \printlist{location}%
-    \newunit%
-  }
-  \par\vspace{0.3\baselineskip}
-}
-
-\DeclareBibliographyDriver{report}{%
-  \printfield{title}%
-  \newblock%
-  \printnames{author}%
-  \par%
-  \newblock%
-  {%
-    \footnotesize\addfontfeature{Color=lightgray}\itshape%
-    \printfield{type}%
-    \setunit{\space}%
-    \printfield{number}%
-    \setunit{\addcomma\space}%
-    \printfield{year}%
-    \newunit%
-  }
-  \par\vspace{0.3\baselineskip}
-}
-
-\DeclareNameFormat{author}{%
-  \small\addfontfeature{Color=lightgray}%
-  \ifblank{#3}{}{#3\space}#1%
-  \ifthenelse{\value{listcount}<\value{liststop}}
-    {\addcomma\space}
-    {}%
-}
-
-\newcommand{\printbibsection}[2]{
-  \begin{refsection}
-    \nocite{*}
-    \printbibliography[sorting=chronological, type={#1}, title={#2}, heading=subbibliography]
-  \end{refsection}
-}
-
-\DeclareSortingScheme{chronological}{
-  \sort[direction=descending]{\field{year}}
-  \sort[direction=descending]{\field{month}}
-}
-
 
 
 %%%%%%%%%%%%%%%%
 % Other tweaks %
 %%%%%%%%%%%%%%%%
 
-\RequirePackage[left=6.1cm,top=2cm,right=1.5cm,bottom=2.5cm,nohead,nofoot]{geometry}
+% \RequirePackage[left=6.1cm,top=2cm,right=1.5cm,bottom=2.5cm,nohead,nofoot]{geometry}
+\RequirePackage[a4paper,left=6.1cm,top=2cm,right=1.5cm,bottom=2.5cm,nohead,nofoot]{geometry}
 \RequirePackage{hyperref}
+\hypersetup{
+    colorlinks=false,       
+    linkcolor=red,          
+    citecolor=red,        
+    filecolor=red,      
+    urlcolor = red}
+    
+% A fix for \href{}{} colors not working with fontspec
+\makeatletter
+\def\HyColor@@@@UseColor#1\@nil{\addfontfeatures{Color=#1}}
+\makeatother
